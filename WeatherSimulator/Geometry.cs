@@ -13,18 +13,25 @@ namespace WeatherSimulator
             return Math.PI * radius * radius;
         }
 
-        public static double GetAreaOfCircleIntersection(double d, double r, double R)
+        public static double GetAreaOfCircleIntersection(double distanceBetweenCenters, double radiusOfSmaller, double radiusOfLarger)
         {
-            if (R < r)
+            if (radiusOfLarger < radiusOfSmaller)
             {
-                double nope = r;
-                r = R;
-                R = nope;
+                double nope = radiusOfSmaller;
+                radiusOfSmaller = radiusOfLarger;
+                radiusOfLarger = nope;
             }
 
-            double part1 = r * r * Math.Acos((d * d + r * r - R * R) / (2 * d * r));
-            double part2 = R * R * Math.Acos((d * d + R * R - r * r) / (2 * d * R));
-            double part3 = 0.5 * Math.Sqrt((-d + r + R) * (d + r - R) * (d - r + R) * (d + r + R));
+            double part1 = Math.Pow(radiusOfSmaller, 2) * Math.Acos((Math.Pow(distanceBetweenCenters, 2) +
+                Math.Pow(radiusOfSmaller, 2) - Math.Pow(radiusOfLarger, 2)) / (2 * distanceBetweenCenters * radiusOfSmaller));
+
+            double part2 = Math.Pow(radiusOfLarger, 2) * Math.Acos((Math.Pow(distanceBetweenCenters, 2) + 
+                Math.Pow(radiusOfLarger, 2) - Math.Pow(radiusOfSmaller, 2)) / (2 * distanceBetweenCenters * radiusOfLarger));
+
+            double part3 = 0.5 * Math.Sqrt((-distanceBetweenCenters + radiusOfSmaller + radiusOfLarger) * 
+                (distanceBetweenCenters + radiusOfSmaller - radiusOfLarger) * 
+                (distanceBetweenCenters - radiusOfSmaller + radiusOfLarger) * 
+                (distanceBetweenCenters + radiusOfSmaller + radiusOfLarger));
 
             return part1 + part2 - part3;
         }
@@ -39,7 +46,7 @@ namespace WeatherSimulator
             return 2 * Math.Asin(bodyDiameter / (2 * range));
         }
 
-        public static double GetBodySize(double angularDiameter, double range)
+        public static double GetBodySizeFromAngularDiameter(double angularDiameter, double range)
         {
             return Math.Sin(angularDiameter / 2) * 2 * range;
         }

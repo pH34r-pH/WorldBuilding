@@ -8,6 +8,7 @@ namespace WeatherSimulator
 {
     public class World
     {
+        // This is science, so everything is Celsius and kilometers
         readonly public double RealSunTemp = 2000000;
         readonly public double RealSunDiameter = 1392000;
         readonly public double RealSunWattage = 384600000000000000000000000d;
@@ -61,7 +62,7 @@ namespace WeatherSimulator
         public void UpdateSunDimensions()
         {
             SunAngularDiameter = Geometry.GetAngularDiameter(RealSunDiameter, RealAU);
-            SunDiameter = Geometry.GetBodySize(SunAngularDiameter, AU);
+            SunDiameter = Geometry.GetBodySizeFromAngularDiameter(SunAngularDiameter, AU);
             SunWattage = (RealSunWattage / (RealAU * RealAU)) * (AU * AU);
         }
 
