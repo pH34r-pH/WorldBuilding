@@ -33,5 +33,15 @@ namespace WeatherSimulator
         {
             return 4 * Math.PI * radius * radius;
         }
+
+        public static double GetAngularDiameter(double bodyDiameter, double range)
+        {
+            return 2 * Math.Asin(bodyDiameter / (2 * range));
+        }
+
+        public static double GetBodySize(double angularDiameter, double range)
+        {
+            return Math.Sin(angularDiameter / 2) * 2 * range;
+        }
     }
 }
