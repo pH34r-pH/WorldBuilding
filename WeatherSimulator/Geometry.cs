@@ -50,5 +50,15 @@ namespace WeatherSimulator
         {
             return Math.Sin(angularDiameter / 2) * 2 * range;
         }
+
+        public static double GetLinearDistance(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
+        }
+
+        public static double GetLinearDistance(double x1, double y1, double z1, double x2, double y2, double z2)
+        {
+            return Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2) + Math.Pow(z1 - z2, 2));
+        }
     }
 }

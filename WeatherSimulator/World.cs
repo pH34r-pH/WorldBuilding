@@ -35,6 +35,7 @@ namespace WeatherSimulator
         public double TorusDiameterInAU { get; set; }
         // in km
         public double ChunkSize { get; set; }
+        public double MapEdgeBuffer { get; set; }
 
         // Runtime(ish) variables
         public double HabitableLandArea { get; set; }
@@ -47,13 +48,17 @@ namespace WeatherSimulator
         public double SunDiameter { get; set; }
         public double SunWattage { get; set; }
 
-        public World(double au = 1000000, double minAU = 0.93, double maxAU = 1.35, double torusDiameter = 2, double chunkSize = 2)
+        public Chunk Reality { get; set; }
+
+        public World(double au = 1000000, double minAU = 0.93, double maxAU = 1.35, 
+                     double torusDiameter = 2, double chunkSize = 2, double mapEdgeBuffer = 200)
         {
             AU = au;
             MinimumHabitable = minAU;
             MaximumHabitable = maxAU;
             TorusDiameterInAU = torusDiameter;
             ChunkSize = chunkSize;
+            MapEdgeBuffer = mapEdgeBuffer;
 
             SetHabitableLandArea();
             UpdateSunDimensions();
@@ -82,6 +87,22 @@ namespace WeatherSimulator
 
                 HabitableLandArea = (2 * LargeCircleArea) - LargeOverlap - (2 * SmallCircleArea);
             }
+        }
+
+        public void CreateReality()
+        {
+            double Width = (TorusDiameterInAU * AU) + (MaximumHabitableKm * 2) + MapEdgeBuffer;
+            double Height = (MaximumHabitableKm * 2) + MapEdgeBuffer;
+            double Depth = 100 + ChunkSize;
+
+            Width = (Width / ChunkSize) - (Width % ChunkSize);
+            Height = (Height / ChunkSize) - (Height % ChunkSize);
+            Depth = (Depth / ChunkSize) - (Depth % ChunkSize);
+
+            double MaxChunk = Math.Sqrt(SunDiameter / 2) * 2;
+
+            Reality = new Chunk(-Width/2, Height/2, 0);
+
         }
     }
 }

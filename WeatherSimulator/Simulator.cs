@@ -31,6 +31,8 @@ namespace WeatherSimulator
                 Math.Round(ThePlane.HabitableLandArea / ThePlane.EarthAreaKm, 2),
                 Math.Round(ThePlane.SunDiameter, 2), Math.Round(ThePlane.SunWattage, 2), Math.Round(ThePlane.AUPercent, 4));
 
+            ThePlane.CreateReality();
+
             Console.ReadLine();
         }
 
